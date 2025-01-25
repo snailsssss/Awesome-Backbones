@@ -70,20 +70,63 @@ def set_random_seed(seed, deterministic=False):
 读取配置文件
 '''
 def file2dict(filename):
-    (path,file) = os.path.split(filename)
+    # 检查文件是否存在
+    if not os.path.exists(filename):
+        raise FileNotFoundError(f"Config file does not exist: {filename}")
 
+    # 解析路径和文件名
+    path, file = os.path.split(filename)
     abspath = os.path.abspath(os.path.expanduser(path))
-    sys.path.insert(0,abspath)
-    mod = importlib.import_module(file.split('.')[0])
-    sys.path.pop(0)
-    cfg_dict = {
-                name: value
-                for name, value in mod.__dict__.items()
-                if not name.startswith('__')
-                and not isinstance(value, types.ModuleType)
-                and not isinstance(value, types.FunctionType)
-                    }
-    return cfg_dict.get('model_cfg'),cfg_dict.get('train_pipeline'),cfg_dict.get('val_pipeline'),cfg_dict.get('data_cfg'),cfg_dict.get('lr_config'),cfg_dict.get('optimizer_cfg')
+    module_name = file.split('.')[0]  # 获取模块名称（去掉扩展名）
+
+    # 将路径添加到 sys.path
+    sys.path.insert(0, abspath)
+    try:
+        # 动态加载模块
+        mod = importlib.import_module(module_name)
+
+        # 提取配置
+        cfg_dict = {
+            name: value
+            for name, value in mod.__dict__.items()
+            if not name.startswith('__') and not isinstance(value, (types.ModuleType, types.FunctionType))
+        }
+
+    except Exception as e:
+        raise ImportError(f"Failed to import module '{module_name}' from '{abspath}': {e}")
+
+    finally:
+        # 确保路径被移除
+        sys.path.pop(0)
+
+        # 从 sys.modules 中移除导入的模块，确保后续不被污染
+        if module_name in sys.modules:
+            del sys.modules[module_name]
+
+    # 返回配置字段
+    return (
+        cfg_dict.get('model_cfg'),
+        cfg_dict.get('train_pipeline'),
+        cfg_dict.get('val_pipeline'),
+        cfg_dict.get('data_cfg'),
+        cfg_dict.get('lr_config'),
+        cfg_dict.get('optimizer_cfg'),
+    )
+# def file2dict(filename):
+#     (path,file) = os.path.split(filename)
+
+#     abspath = os.path.abspath(os.path.expanduser(path))
+#     sys.path.insert(0,abspath)
+#     mod = importlib.import_module(file.split('.')[0])
+#     sys.path.pop(0)
+#     cfg_dict = {
+#                 name: value
+#                 for name, value in mod.__dict__.items()
+#                 if not name.startswith('__')
+#                 and not isinstance(value, types.ModuleType)
+#                 and not isinstance(value, types.FunctionType)
+#                     }
+#     return cfg_dict.get('model_cfg'),cfg_dict.get('train_pipeline'),cfg_dict.get('val_pipeline'),cfg_dict.get('data_cfg'),cfg_dict.get('lr_config'),cfg_dict.get('optimizer_cfg')
 
 '''
 输出信息

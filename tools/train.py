@@ -58,6 +58,12 @@ def main():
     args = parse_args()
     model_cfg, train_pipeline, val_pipeline, data_cfg, lr_config, optimizer_cfg = file2dict(args.config)
     print_info(model_cfg)
+    print(train_pipeline)
+    print(val_pipeline)
+    print(data_cfg)
+    print(lr_config)
+    print(optimizer_cfg)
+    
 
     # 初始化
     meta = dict()
@@ -71,7 +77,7 @@ def main():
     meta['seed'] = seed
     
     # 读取训练&制作验证标签数据
-    total_annotations   = "datas/train.txt"
+    total_annotations   = "data_set_zoom/sim_[0.8]/train.txt"
     with open(total_annotations, encoding='utf-8') as f:
         total_datas = f.readlines()
     if args.split_validation:
@@ -89,7 +95,7 @@ def main():
         val_datas = total_datas[val_start:val_end]
     else:
         train_datas = total_datas.copy()
-        test_annotations    = 'datas/test.txt'
+        test_annotations    = 'data_set_zoom/sim_[0.8]/test.txt'
         with open(test_annotations, encoding='utf-8') as f:
             val_datas   = f.readlines()
     
