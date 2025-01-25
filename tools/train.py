@@ -53,7 +53,7 @@ def parse_args():
         os.environ['LOCAL_RANK'] = str(args.local_rank)
     return args
 
-def main():
+def main(foldername):
     # 读取配置文件获取关键字段
     args = parse_args()
     model_cfg, train_pipeline, val_pipeline, data_cfg, lr_config, optimizer_cfg = file2dict(args.config)
@@ -77,7 +77,7 @@ def main():
     meta['seed'] = seed
     
     # 读取训练&制作验证标签数据
-    total_annotations   = "data_set_zoom/sim_[0.8]/train.txt"
+    total_annotations   = f"{foldername}train.txt" # "data_set_zoom/sim_[0.8]/train.txt"
     with open(total_annotations, encoding='utf-8') as f:
         total_datas = f.readlines()
     if args.split_validation:
@@ -94,8 +94,9 @@ def main():
         train_datas = total_datas[:val_start] + total_datas[val_end:]
         val_datas = total_datas[val_start:val_end]
     else:
+        #print('testing')
         train_datas = total_datas.copy()
-        test_annotations    = 'data_set_zoom/sim_[0.8]/test.txt'
+        test_annotations    = f"{foldername}test.txt"#'data_set_zoom/sim_[0.8]/test.txt'
         with open(test_annotations, encoding='utf-8') as f:
             val_datas   = f.readlines()
     
@@ -173,4 +174,16 @@ def main():
         train_history.after_epoch(meta)
 
 if __name__ == "__main__":
-    main()
+    all_data =   [0.8,0.85,0.9,0.95,1]  #['70cup','70plant','70foam','80cup','80plant','80foam','90cup','90plant','90foam','100cup','100plant','100foam']
+    two_dataset = ['sim_','del_']
+    for j in range(2):
+        for i in range(5):
+ 
+            test_item_No = i
+
+            test_scale = all_data[test_item_No:(test_item_No+1)]#[0.95] #  # 测试集缩放因子
+            train_scale = [item for item in all_data if item not in test_scale]
+
+            foldername = 'data_set_zoom/'+two_dataset[j]+str(test_scale)+'/'
+
+            main(foldername)

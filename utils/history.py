@@ -50,11 +50,11 @@ class History():
         '''
         val_acc_epoch = []
         train_acc_epoch = []
-        epoch_outputs = [['index', 'train_loss', 'train_acc', 'train_precision', 'train_recall', 'train_f1-score', 'val_loss', 'val_acc', 'val_precision', 'val_recall', 'val_f1-score']]
+        epoch_outputs = [['index', 'train_loss', 'train_acc', 'train_top2_acc','train_top5_acc','train_precision', 'train_recall', 'train_f1-score', 'val_loss', 'val_acc', 'val_top2_acc', 'val_top5_acc', 'val_precision', 'val_recall', 'val_f1-score']]
         with open(self.csv_dir, 'w', newline='') as f:
             writer          = csv.writer(f)
             for i in range(len(meta['train_info']['train_loss'])):
-                temp_data = [i+1, meta['train_info']['train_loss'][i], meta['train_info']['train_acc'][i].get('accuracy_top-1'),mean(meta['train_info']['train_acc'][i].get('precision',0.0)),mean(meta['train_info']['train_acc'][i].get('recall',0.0)),mean(meta['train_info']['train_acc'][i].get('f1_score',0.0)), meta['train_info']['val_loss'][i], meta['train_info']['val_acc'][i].get('accuracy_top-1'),mean(meta['train_info']['val_acc'][i].get('precision',0.0)),mean(meta['train_info']['val_acc'][i].get('recall',0.0)),mean(meta['train_info']['val_acc'][i].get('f1_score',0.0))]
+                temp_data = [i+1, meta['train_info']['train_loss'][i], meta['train_info']['train_acc'][i].get('accuracy_top-1'),meta['train_info']['train_acc'][i].get('accuracy_top-2'),meta['train_info']['train_acc'][i].get('accuracy_top-5'),mean(meta['train_info']['train_acc'][i].get('precision',0.0)),mean(meta['train_info']['train_acc'][i].get('recall',0.0)),mean(meta['train_info']['train_acc'][i].get('f1_score',0.0)), meta['train_info']['val_loss'][i], meta['train_info']['val_acc'][i].get('accuracy_top-1'),meta['train_info']['val_acc'][i].get('accuracy_top-2'),meta['train_info']['val_acc'][i].get('accuracy_top-5'),mean(meta['train_info']['val_acc'][i].get('precision',0.0)),mean(meta['train_info']['val_acc'][i].get('recall',0.0)),mean(meta['train_info']['val_acc'][i].get('f1_score',0.0))]
                 val_acc_epoch.append(meta['train_info']['val_acc'][i].get('accuracy_top-1'))
                 train_acc_epoch.append(meta['train_info']['train_acc'][i].get('accuracy_top-1'))
                 epoch_outputs.append(temp_data)
