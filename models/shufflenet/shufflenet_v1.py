@@ -54,7 +54,7 @@ data_cfg = dict(
         ckpt = '',
         metrics = ['accuracy', 'precision', 'recall', 'f1_score', 'confusion'],
         metric_options = dict(
-            topk = (1,5),
+            topk = (1,2,5),
             thrs = None,
             average_mode='none'
     )

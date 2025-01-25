@@ -54,8 +54,8 @@ def get_metrics_output(eval_results, metrics_output,classes_names, indexs, APs):
 
     TITLE = 'Total Results'    
     TABLE_DATA_2 = (
-    ('Top-1 Acc', 'Top-5 Acc', 'Mean Precision', 'Mean Recall', 'Mean F1 Score'),
-    ('{:.2f}'.format(eval_results.get('accuracy_top-1',0.0)), '{:.2f}'.format(eval_results.get('accuracy_top-5',100.0)), '{:.2f}'.format(mean(eval_results.get('precision',0.0))),'{:.2f}'.format(mean(eval_results.get('recall',0.0))),'{:.2f}'.format(mean(eval_results.get('f1_score',0.0)))),
+    ('Top-1 Acc', 'Top-2 Acc','Top-5 Acc', 'Mean Precision', 'Mean Recall', 'Mean F1 Score'),
+    ('{:.2f}'.format(eval_results.get('accuracy_top-1',0.0)), '{:.2f}'.format(eval_results.get('accuracy_top-2',0.0)),'{:.2f}'.format(eval_results.get('accuracy_top-5',100.0)), '{:.2f}'.format(mean(eval_results.get('precision',0.0))),'{:.2f}'.format(mean(eval_results.get('recall',0.0))),'{:.2f}'.format(mean(eval_results.get('f1_score',0.0)))),
     )
     table_instance = AsciiTable(TABLE_DATA_2,TITLE)
     #table_instance.justify_columns[2] = 'right'

@@ -206,7 +206,7 @@ data_cfg = dict(
         ckpt = 'logs/20220202091725/Val_Epoch019-Loss0.215.pth',
         metrics = ['accuracy', 'precision', 'recall', 'f1_score', 'confusion'],
         metric_options = dict(
-            topk = (1,5),
+            topk = (1,2,5),
             thrs = None,
             average_mode='none'
     ))
