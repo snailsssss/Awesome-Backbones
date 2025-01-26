@@ -49,13 +49,13 @@ data_cfg = dict(
         pretrained_weights = '',
         freeze_flag = False,
         freeze_layers = ('backbone',),
-        epoches = 100,
+        epoches = 200,
     ),
     test=dict(
         ckpt = '',
         metrics = ['accuracy', 'precision', 'recall', 'f1_score', 'confusion'],
         metric_options = dict(
-            topk = (1,5),
+            topk = (1,2,5),
             thrs = None,
             average_mode='none'
     )

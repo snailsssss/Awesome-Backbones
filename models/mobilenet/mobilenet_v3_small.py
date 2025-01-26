@@ -54,7 +54,7 @@ data_cfg = dict(
         pretrained_weights = 'datas/mobilenet_v3_small-8427ecf0.pth',
         freeze_flag = False,
         freeze_layers = ('backbone',),
-        epoches = 100,
+        epoches = 200,
     ),
     test=dict(
         ckpt = 'datas/mobilenet_v3_small-8427ecf0.pth',
