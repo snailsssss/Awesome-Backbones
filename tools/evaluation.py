@@ -72,7 +72,7 @@ def get_metrics_output(eval_results, metrics_output,classes_names, indexs, APs):
     TITLE = 'Confusion Matrix'
     TABLE_DATA_3 = tuple(writer_list)
     table_instance = AsciiTable(TABLE_DATA_3,TITLE)
-    print(table_instance.table)
+    #print(table_instance.table)
     writer.writerows(TABLE_DATA_3)
     print()
 
@@ -206,8 +206,8 @@ def main():
     """
     获取类别名以及对应索引、获取标注文件
     """
-    classes_map = 'datas/annotations.txt' 
-    test_annotations    = 'datas/test.txt'
+    classes_map = 'datas/annotations_new.txt' 
+    test_annotations    = 'dataset/sim/train.txt'
     classes_names, indexs = get_info(classes_map)
     with open(test_annotations, encoding='utf-8') as f:
         test_datas   = f.readlines()

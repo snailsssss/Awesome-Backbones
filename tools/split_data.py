@@ -16,7 +16,7 @@ def main():
         os.makedirs(path)
     
     split_rate = 0.2
-    init_dataset = ''
+    init_dataset = 'data_set_zoom/coil_del_BICUBIC/1'
     new_dataset = 'datasets'
     random.seed(0)
 

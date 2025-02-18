@@ -174,6 +174,16 @@ def main(foldername):
         train_history.after_epoch(meta)
 
 if __name__ == "__main__":
-    foldername = 'dataset/sim'+'/'
-    print("foldername:", foldername)
-    main(foldername)
+    all_data =   [0.8,0.85,0.9,0.95,1]  #['70cup','70plant','70foam','80cup','80plant','80foam','90cup','90plant','90foam','100cup','100plant','100foam']
+    two_dataset = ['sim_','del_']
+    for j in range(1):
+        for i in range(1):
+ 
+            test_item_No = i
+
+            test_scale = all_data[test_item_No:(test_item_No+1)]#[0.95] #  # 测试集缩放因子
+            train_scale = [item for item in all_data if item not in test_scale]
+
+            foldername = 'data_set_zoom/'+two_dataset[j]+str(test_scale)+'/'
+
+            main(foldername)

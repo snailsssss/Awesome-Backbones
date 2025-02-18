@@ -1,7 +1,7 @@
 # model settings
 
 model_cfg = dict(
-    backbone=dict(type='AlexNet', num_classes=1000),
+    backbone=dict(type='AlexNet', num_classes=72),#
     neck=None,
     head=dict(
         type='ClsHead',
@@ -32,20 +32,20 @@ val_pipeline = [
 
 # train
 data_cfg = dict(
-    batch_size = 32,
-    num_workers = 4,
+    batch_size = 64,#32
+    num_workers = 20,
     train = dict(
         pretrained_flag = False,
         pretrained_weights = '',
         freeze_flag = False,
         freeze_layers = ('backbone',),
-        epoches = 100,
+        epoches = 400,
     ),
     test=dict(
         ckpt = '',
         metrics = ['accuracy', 'precision', 'recall', 'f1_score', 'confusion'],
         metric_options = dict(
-            topk = (1,5),
+            topk = (1,2,5), #
             thrs = None,
             average_mode='none'
     )

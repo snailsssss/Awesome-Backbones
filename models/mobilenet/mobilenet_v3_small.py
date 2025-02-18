@@ -14,7 +14,7 @@ model_cfg = dict(
             type='CrossEntropyLoss', loss_weight=1.0),
         init_cfg=dict(
             type='Normal', layer='Linear', mean=0., std=0.01, bias=0.),
-        topk=(1, 5)))
+        topk=(1, 2,5)))
 
 # dataloader pipeline
 img_norm_cfg = dict(
@@ -47,17 +47,17 @@ val_pipeline = [
 
 # train
 data_cfg = dict(
-    batch_size = 32,
-    num_workers = 2,
+    batch_size = 1,
+    num_workers = 20,
     train = dict(
-        pretrained_flag = True,
+        pretrained_flag = False,
         pretrained_weights = 'datas/mobilenet_v3_small-8427ecf0.pth',
         freeze_flag = False,
         freeze_layers = ('backbone',),
-        epoches = 200,
+        epoches = 600,
     ),
     test=dict(
-        ckpt = 'datas/mobilenet_v3_small-8427ecf0.pth',
+        ckpt = 'logs/MobileNetV3/2025-02-18-17-35-13/Last_Epoch600.pth',
         metrics = ['accuracy', 'precision', 'recall', 'f1_score', 'confusion'],
         metric_options = dict(
             topk = (1,2,5),

@@ -42,8 +42,8 @@ val_pipeline = [
 
 # train
 data_cfg = dict(
-    batch_size = 32,
-    num_workers = 4,
+    batch_size = 64,
+    num_workers = 10,
     train = dict(
         pretrained_flag = False,
         pretrained_weights = '',

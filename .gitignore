@@ -2,3 +2,6 @@
 __pycache__/
 logs/
 datasets/
+data_set_zoom/
+dataset/
+eval_results/

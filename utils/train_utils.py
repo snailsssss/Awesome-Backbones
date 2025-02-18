@@ -246,6 +246,11 @@ def train(model, runner, lr_update_func, device, epoch, epoches, test_cfg, meta)
     runner['epoch'] = epoch + 1
     meta['epoch'] = runner['epoch']
     
+    # 早停参数
+    patience = 5  # 允许的连续不提升的 epoch 数
+    best_val_acc = runner.get('best_val_acc', 0.0)
+    no_improvement_epochs = 0  # 连续没有提升的 epoch 数
+
     model.train()
     with tqdm(total=len(runner.get('train_loader')),desc=f'Train: Epoch {epoch + 1}/{epoches}', postfix=dict, mininterval=0.3) as pbar:
         for iter, batch in enumerate(runner.get('train_loader')):            
@@ -294,6 +299,17 @@ def train(model, runner, lr_update_func, device, epoch, epoches, test_cfg, meta)
     print()
     print(table_instance.table)
     print()
+
+    # 早停逻辑
+    if eval_results.get('accuracy_top-1') > best_val_acc:
+        best_val_acc = eval_results.get('accuracy_top-1')
+        no_improvement_epochs = 0
+    else:
+        no_improvement_epochs += 1
+    if no_improvement_epochs >= patience:
+        print(f'Early stopping at epoch {epoch + 1} as validation accuracy did not improve for {patience} epochs.')
+        return True  # 返回 True 表示提前停止
+    return False  # 返回 False 表示继续训练
     
 
 def validation(model, runner, cfg, device, epoch, epoches, meta):

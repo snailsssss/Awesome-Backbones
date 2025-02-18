@@ -187,7 +187,7 @@ def save_checkpoint(model,
         for name, optim in optimizer.items():
             checkpoint['optimizer'][name] = optim.state_dict()
 
-    #torch.save(checkpoint,filename)
+    torch.save(checkpoint,filename)
     
 def load_checkpoint(model,
                     filename,
